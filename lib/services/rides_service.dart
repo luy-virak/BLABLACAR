@@ -7,9 +7,32 @@ import '../model/ride/ride.dart';
 ///   - The list of available rides
 ///
 class RidesService {
-  static List<Ride> allRides = fakeRides;
+  static List<Ride> availableRides = fakeRides; // TODO for now fake data
 
-  
+  static List<Ride> filterByDeparture(Location departure) {
+    return availableRides
+        .where((ride) => ride.departureLocation == departure)
+        .toList();
+  }
 
- 
+  static List<Ride> filterBySeatRequested(int seatRequested) {
+    return availableRides
+        .where((ride) => ride.availableSeats >= seatRequested)
+        .toList();
+  }
+
+  static List<Ride> filterBy({Location? departure, int? seatRequested}) {
+    var filteredRides = availableRides;
+    if (departure != null) {
+      filteredRides = filteredRides
+          .where((ride) => ride.departureLocation == departure)
+          .toList();
+    }
+    if (seatRequested != null) {
+      filteredRides = filteredRides
+          .where((ride) => ride.availableSeats >= seatRequested)
+          .toList();
+    }
+    return filteredRides;
+  }
 }
