@@ -9,16 +9,15 @@ import '../model/ride/ride.dart';
 class RidesService {
   static List<Ride> availableRides = fakeRides; // TODO for now fake data
 
-  static List<Ride> filterByDeparture(Location departure) {
-    return availableRides
-        .where((ride) => ride.departureLocation == departure)
-        .toList();
+  static List<Ride> filterByDeparture(List<Ride> rides, departure) {
+    return rides.where((ride) => ride.departureLocation == departure).toList();
   }
 
-  static List<Ride> filterBySeatRequested(int seatRequested) {
-    return availableRides
-        .where((ride) => ride.availableSeats >= seatRequested)
-        .toList();
+  static List<Ride> filterBySeatRequested(
+    List<Ride> rides,
+    int seatRequested,
+  ) {
+    return rides.where((ride) => ride.availableSeats >= seatRequested).toList();
   }
 
   static List<Ride> filterBy({Location? departure, int? seatRequested}) {

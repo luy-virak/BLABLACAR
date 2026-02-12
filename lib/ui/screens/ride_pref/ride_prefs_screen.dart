@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../theme/theme.dart';
 import 'widgets/ride_prefs_form.dart';
 import 'widgets/ride_prefs_tile.dart';
+import '../../widgets/actions/blabutton.dart';
 
 const String blablaHomeImagePath = 'assets/images/blabla_home.png';
 
@@ -17,6 +18,7 @@ class RidePrefsScreen extends StatelessWidget {
 
   void onRidePrefSelected(RidePref ridePref) {
     // TODO
+    
   }
 
   @override
@@ -50,6 +52,16 @@ class RidePrefsScreen extends StatelessWidget {
             children: [
               // 2 - THE FORM
               RidePrefForm(initRidePref: RidePrefsService.selectedRidePref),
+              SizedBox(height: BlaSpacings.m),
+
+              BlaButton(
+                label: "Search", // Button label
+                onPressed: () {
+                  // Handle the search action (e.g., use RidePrefsService to filter rides)
+                  print("Search button pressed!");
+                  // You could call a method from RidesService or navigate to another screen here.
+                },
+              ),
               SizedBox(height: BlaSpacings.m),
 
               // 3 - THE HISTORY
