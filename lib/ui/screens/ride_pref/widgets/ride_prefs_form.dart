@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
-
+import '../../../widgets/inputs/forms.dart'; // Ensure this is correct
 import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
 
-///
-/// A Ride Preference From is a view to select:
-///   - A depcarture location
-///   - An arrival location
-///   - A date
-///   - A number of seats
-///
-/// The form can be created with an existing RidePref (optional).
-///
 class RidePrefForm extends StatefulWidget {
-  // The form can be created with an optional initial RidePref.
   final RidePref? initRidePref;
 
   const RidePrefForm({super.key, this.initRidePref});
@@ -23,39 +13,80 @@ class RidePrefForm extends StatefulWidget {
 }
 
 class _RidePrefFormState extends State<RidePrefForm> {
+  // Declare departure and arrival location variables
   Location? departure;
-  late DateTime departureDate;
   Location? arrival;
-  late int requestedSeats;
 
-  // ----------------------------------
-  // Initialize the Form attributes
-  // ----------------------------------
+  late DateTime departureDate;
+  late int seat;
 
   @override
   void initState() {
     super.initState();
-    // TODO
+    departureDate = DateTime.now(); // Default to current date
+    seat = 1; // Default to 1 seat
+
+    // Initialize with the provided RidePref (if any)
+    if (widget.initRidePref != null) {
+      departure = widget.initRidePref!.departure;
+      arrival = widget.initRidePref!.arrival;
+    }
   }
 
-  // ----------------------------------
-  // Handle events
-  // ----------------------------------
+  // Swap locations function
+  void _swapLocations() {
+    setState(() {
+      final temp = departure;
+      departure = arrival;
+      arrival = temp;
+    });
+  }
 
-  // ----------------------------------
-  // Compute the widgets rendering
-  // ----------------------------------
-
-  // ----------------------------------
-  // Build the widgets
-  // ----------------------------------
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [ 
-        
-        ]);
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Swap locations button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                onTap: _swapLocations,
+                child: Icon(
+                  Icons.swap_horiz,
+                  size: 30, // Adjust icon size
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SubBla(icon: Icons.place, label: departure?.name ?? "Leaving from"),
+          
+          const SizedBox(height: 12,child: Divider(),),
+
+          SubBla(icon: Icons.place, label: arrival?.name ?? "Going to"),
+          const SizedBox(height: 12,child: Divider(),),
+
+          // Departure date display
+          SubBla(
+            icon: Icons.calendar_month,
+            label:
+                "${departureDate.day}/${departureDate.month}/${departureDate.year}",
+          ),
+          const SizedBox(height: 12,child: Divider(),),
+          // Seat number display
+          SubBla(icon: Icons.person, label: "$seat"),
+          const SizedBox(height: 12,child: Divider(),),
+          // Additional widgets here (if needed)
+
+        ],
+      ),
+    );
   }
 }
+
+
+
