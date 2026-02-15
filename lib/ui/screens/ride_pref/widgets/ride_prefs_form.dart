@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../widgets/inputs/forms.dart'; // Ensure this is correct
 import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
+import '../../../widgets/inputs/Pick_location.dart';
 
 class RidePrefForm extends StatefulWidget {
   final RidePref? initRidePref;
@@ -56,18 +57,50 @@ class _RidePrefFormState extends State<RidePrefForm> {
               GestureDetector(
                 onTap: _swapLocations,
                 child: Icon(
-                  Icons.swap_horiz,
+                  Icons.swap_vert,
+                  color: Colors.blue,
                   size: 30, // Adjust icon size
                 ),
+                
               ),
             ],
           ),
           const SizedBox(height: 16),
-          SubBla(icon: Icons.place, label: departure?.name ?? "Leaving from"),
+          SubBla(
+            icon: Icons.place,
+            label: departure?.name ?? "Leaving from",
+            onTap: () async {
+              final selected = await showLocationPicker(
+                context,
+                title: "Leaving from",
+              );
+
+              if (selected != null) {
+                setState(() {
+                  departure = selected.copyWith();
+                });
+              }
+            },
+          ),
           
           const SizedBox(height: 12,child: Divider(),),
 
-          SubBla(icon: Icons.place, label: arrival?.name ?? "Going to"),
+          SubBla(
+            icon: Icons.place,
+            label: arrival?.name ?? "Going to",
+            onTap: () async {
+              final selected = await showLocationPicker(
+                context,
+                title: "Going to",
+              );
+
+              if (selected != null) {
+                setState(() {
+                  arrival = selected.copyWith();
+                });
+              }
+            },
+          ),
           const SizedBox(height: 12,child: Divider(),),
 
           // Departure date display

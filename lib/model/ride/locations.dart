@@ -19,7 +19,15 @@ class Location {
   final Country country;
 
   const Location({required this.name, required this.country});
-
+  Location copyWith({
+    String? name,
+    Country? country,
+  }) {
+    return Location(
+      name: name ?? this.name,
+      country: country ?? this.country,
+    );
+  }
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
