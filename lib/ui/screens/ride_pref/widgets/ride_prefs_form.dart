@@ -4,6 +4,8 @@ import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
 import '../../../widgets/inputs/Pick_location.dart';
 
+import '../../../widgets/inputs/seat_picker_screen.dart';
+
 class RidePrefForm extends StatefulWidget {
   final RidePref? initRidePref;
 
@@ -54,6 +56,22 @@ class _RidePrefFormState extends State<RidePrefForm> {
     if (picked != null && picked != departureDate) {
       setState(() {
         departureDate = picked;
+      });
+    }
+  }
+
+  // Open the Seat Picker Screen
+  void _openSeatPicker() async {
+    final int? selectedSeats = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SeatPickerScreen(initialSeats: seat), // Pass current seat count
+      ),
+    );
+
+    if (selectedSeats != null) {
+      setState(() {
+        seat = selectedSeats; // Update the seat count when the user confirms
       });
     }
   }
@@ -125,11 +143,16 @@ class _RidePrefFormState extends State<RidePrefForm> {
             onTap: () => _pickDepartureDate(context),
           ),
           const SizedBox(height: 12, child: Divider()),
-          // Seat number display
-          SubBla(icon: Icons.person, label: "$seat"),
-          const SizedBox(height: 12, child: Divider()),
 
-          
+          // Seat number display with SeatCounter widget
+          GestureDetector(
+            onTap: _openSeatPicker, // Open seat picker screen
+            child: SubBla(
+              icon: Icons.person,
+              label: "$seat",
+            ),
+          ),
+          const SizedBox(height: 12, child: Divider()),
         ],
       ),
     );
