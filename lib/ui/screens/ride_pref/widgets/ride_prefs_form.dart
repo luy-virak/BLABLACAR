@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../widgets/inputs/forms.dart'; // Ensure this is correct
+import '../../../widgets/inputs/forms.dart'; 
 import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
 import '../../../widgets/inputs/Pick_location.dart';
@@ -43,6 +43,21 @@ class _RidePrefFormState extends State<RidePrefForm> {
     });
   }
 
+  Future<void> _pickDepartureDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: departureDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != departureDate) {
+      setState(() {
+        departureDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -61,7 +76,6 @@ class _RidePrefFormState extends State<RidePrefForm> {
                   color: Colors.blue,
                   size: 30, // Adjust icon size
                 ),
-                
               ),
             ],
           ),
@@ -82,8 +96,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
               }
             },
           ),
-          
-          const SizedBox(height: 12,child: Divider(),),
+
+          const SizedBox(height: 12, child: Divider()),
 
           SubBla(
             icon: Icons.place,
@@ -101,25 +115,23 @@ class _RidePrefFormState extends State<RidePrefForm> {
               }
             },
           ),
-          const SizedBox(height: 12,child: Divider(),),
+          const SizedBox(height: 12, child: Divider()),
 
           // Departure date display
           SubBla(
             icon: Icons.calendar_month,
             label:
                 "${departureDate.day}/${departureDate.month}/${departureDate.year}",
+            onTap: () => _pickDepartureDate(context),
           ),
-          const SizedBox(height: 12,child: Divider(),),
+          const SizedBox(height: 12, child: Divider()),
           // Seat number display
           SubBla(icon: Icons.person, label: "$seat"),
-          const SizedBox(height: 12,child: Divider(),),
-          // Additional widgets here (if needed)
+          const SizedBox(height: 12, child: Divider()),
 
+          
         ],
       ),
     );
   }
 }
-
-
-
